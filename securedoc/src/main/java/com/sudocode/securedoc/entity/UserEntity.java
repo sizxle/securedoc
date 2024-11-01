@@ -18,7 +18,7 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "users")
 @JsonInclude(JsonInclude.Include.NON_DEFAULT) // leaves out default values on serialization
-public class User extends Auditable {
+public class UserEntity extends Auditable {
 
     @Column(updatable = false, unique = true, nullable = false)
     private String userId;
