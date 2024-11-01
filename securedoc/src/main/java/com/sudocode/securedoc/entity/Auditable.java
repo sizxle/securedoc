@@ -1,6 +1,7 @@
 package com.sudocode.securedoc.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.sudocode.securedoc.entity.exception.ApiException;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
