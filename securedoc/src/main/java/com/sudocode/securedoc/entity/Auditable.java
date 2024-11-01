@@ -1,7 +1,8 @@
 package com.sudocode.securedoc.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.sudocode.securedoc.entity.exception.ApiException;
+import com.sudocode.securedoc.domain.RequestContext;
+import com.sudocode.securedoc.exception.ApiException;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
@@ -49,7 +50,7 @@ public abstract class Auditable {
 
     @PrePersist
     public void beforePersist() {
-        var userId=1L;
+        var userId= RequestContext.getUserId();
         if(userId == null){
             throw new ApiException("Cannot persist entity without user ID in Request Context for this thread");
         }
@@ -61,7 +62,7 @@ public abstract class Auditable {
 
     @PreUpdate
     public void beforeUpdate() {
-        var userId=1L;
+        var userId = RequestContext.getUserId();
         if(userId == null){
             throw new ApiException("Cannot persist entity without user ID in Request Context for this thread");
         }
