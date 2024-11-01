@@ -1,4 +1,4 @@
-package com.sudocode.securedoc.entity.exception;
+package com.sudocode.securedoc.exception;
 
 public class ApiException extends RuntimeException {
 
