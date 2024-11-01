@@ -9,8 +9,9 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.util.AlternativeJdkIdGenerator;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
+
+import static java.time.LocalDateTime.now;
 
 @Getter
 @Setter
@@ -44,6 +45,29 @@ public abstract class Auditable {
     @CreatedDate
     @Column(name = "updated_at", nullable = false )
     private LocalDateTime updatedAt;
+
+    @PrePersist
+    public void beforePersist() {
+        var userId=1L;
+        if(userId == null){
+            throw new ApiException("Cannot persist entity without user ID in Request Context for this thread");
+        }
+        setCreatedAt(now());
+        setUpdatedAt(now());
+        setCreatedBy(userId);
+        setUpdatedBy(userId);
+    }
+
+    @PreUpdate
+    public void beforeUpdate() {
+        var userId=1L;
+        if(userId == null){
+            throw new ApiException("Cannot persist entity without user ID in Request Context for this thread");
+        }
+        setUpdatedAt(now());
+        setUpdatedBy(userId);
+    }
+
 }
 
 
