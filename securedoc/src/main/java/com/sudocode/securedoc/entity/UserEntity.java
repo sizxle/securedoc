@@ -2,9 +2,7 @@ package com.sudocode.securedoc.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -24,25 +22,42 @@ public class UserEntity extends Auditable {
     private String userId;
 
     private String firstName;
+
     private String lastName;
+
     @Column(unique = true, nullable = false)
     private String email;
+
     private Integer loginAttempts;
+
     private LocalDateTime lastLogin;
+
     private String phone;
+
     private String bio;
+
     private String imgUrl;
+
     private boolean accountNonExpired; //For spring security
+
     private boolean accountNonLocked;
+
     private boolean enabled;
+
     private boolean mfa;
+
     @JsonIgnore
     private String qrCodeSecret;
 
     @Column(columnDefinition = "TEXT")
     private String qrCodeImgUri;
 
-    private String roles; //TODO create roles class and map here with JPA
-
-
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "user_roles",
+            joinColumns = @JoinColumn(
+                    name = "user_id",referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(
+                    name = "role_id", referencedColumnName = "id"))
+    private RoleEntity role;
 }
